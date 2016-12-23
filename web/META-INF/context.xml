@@ -10,6 +10,6 @@
            username="app1dba" 
            password="1111111" 
            driverClassName="com.mysql.jdbc.Driver"
-           url="jdbc:mysql://139.196.55.11:3306/Application1?zeroDateTimeBehavior=convertToNull"
+           url="jdbc:mysql://139.196.55.11:3306/Application1?zeroDateTimeBehavior=convertToNull&amp;useUnicode=true&amp;characterEncoding=gbk"
     />   
 </Context>

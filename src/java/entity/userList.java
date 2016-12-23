@@ -19,6 +19,7 @@ import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.util.Arrays;
 import net.sf.json.JSONObject;
 
 /**
@@ -31,8 +32,10 @@ public class userList extends HttpServlet {
         Context ctx = new InitialContext();
         DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/mydata");
         Connection conn = ds.getConnection();
+        
         Statement st = conn.createStatement();
-        String sql = "select id,username from tbluser;";
+        
+        String sql = "select id '编号',username '用户名' from tbluser;";
         ResultSet rs = st.executeQuery(sql);
 
         // json数组  
@@ -40,7 +43,7 @@ public class userList extends HttpServlet {
         // 获取列数  
         ResultSetMetaData metaData = rs.getMetaData();
         int columnCount = metaData.getColumnCount();
-
+        
         // 遍历ResultSet中的每条数据  
         while (rs.next()) {
             JSONObject jsonObj = new JSONObject();
