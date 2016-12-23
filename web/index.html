@@ -17,8 +17,8 @@ and open the template in the editor.
     </head>
     <body>
         
-        
-        <table id="dg" title="My Users" class="easyui-datagrid" style="width:550px;height:250px"
+        <div style="width:550px;height:250px;margin: auto;position: absolute;left: 0;right: 0">
+        <table id="dg" title="My Users" class="easyui-datagrid" 
                url="userList"
                toolbar="#toolbar"
                rownumbers="true" fitColumns="true" singleSelect="true">
@@ -33,6 +33,7 @@ and open the template in the editor.
             <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">New User</a>
             <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">Edit User</a>
             <a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">Remove User</a>
+        </div>
         </div>
     </body>
 </html>
