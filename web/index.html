@@ -13,27 +13,108 @@ and open the template in the editor.
         <link href="js/themes/icon.css" rel="stylesheet" type="text/css"/>
         <script src="js/jquery.min.js" type="text/javascript"></script>      
         <script src="js/jquery.easyui.min.js" type="text/javascript"></script>
-        
+
+        <script type="text/javascript">
+		var url;
+		function newUser(){
+			$('#dlg').dialog('open').dialog('setTitle','New User');
+			$('#fm').form('clear');
+			url = 'save_user';
+		}
+		function editUser(){
+			var row = $('#dg').datagrid('getSelected');
+			if (row){
+				$('#dlg').dialog('open').dialog('setTitle','Edit User');
+				$('#fm').form('load',row);
+				url = 'update_user?id='+row.id;
+			}
+		}
+		function saveUser(){
+			$('#fm').form('submit',{
+				url: url,
+				onSubmit: function(){
+					return $(this).form('validate');
+				},
+				success: function(result){
+					var result = eval('('+result+')');
+					if (result.success){
+						$('#dlg').dialog('close');		// close the dialog
+						$('#dg').datagrid('reload');	// reload the user data
+					} else {
+						$.messager.show({
+							title: 'Error',
+							msg: result.msg
+						});
+					}
+				}
+			});
+		}
+		function removeUser(){
+			var row = $('#dg').datagrid('getSelected');
+			if (row){
+				$.messager.confirm('Confirm','Are you sure you want to remove this user?',function(r){
+					if (r){
+						$.post('remove_user',{id:row.id},function(result){
+							if (result.success){
+								$('#dg').datagrid('reload');	// reload the user data
+							} else {
+								$.messager.show({	// show error message
+									title: 'Error',
+									msg: result.msg
+								});
+							}
+						},'json');
+					}
+				});
+			}
+		}
+	</script>
+
     </head>
     <body>
-        
+
         <div style="width:800px; margin: auto;position: absolute;left: 0;right: 0">
-        <table id="dg" title="My Users" class="easyui-datagrid"
-               url="userList"
-               toolbar="#toolbar"
-               rownumbers="true" fitColumns="true" singleSelect="true">
-            <thead>
-                <tr>   
-                    <th field="编号" width="50">编号</th>
-                    <th field="用户名" width="50">用户名</th>
-                </tr>
-            </thead>
-        </table>
-        <div id="toolbar">
-            <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">New User</a>
-            <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">Edit User</a>
-            <a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">Remove User</a>
+            <table id="dg" title="My Users" class="easyui-datagrid"
+                   url="userList"
+                   toolbar="#toolbar"
+                   rownumbers="true" fitColumns="true" singleSelect="true">
+                <thead>
+                    <tr>   
+                        <th field="编号" width="50">编号</th>
+                        <th field="用户名" width="50">用户名</th>
+                    </tr>
+                </thead>
+            </table>
+            <div id="toolbar">
+                <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">添加用户</a>
+                <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">修改用户</a>
+                <a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="removeUser()">删除用户</a>
+            </div>
         </div>
+
+
+        <div id="dlg" class="easyui-dialog" style="width:400px;height:280px;padding:10px 20px"
+             closed="true" buttons="#dlg-buttons">
+            <div class="ftitle">User Information</div>
+            <form id="fm" method="post">
+                <div class="fitem" >
+                    <label style="display:inline-block;width:80px;height: 24px;">编号:</label>
+                    <input name="编号" class="easyui-validatebox" required="true">
+                </div>
+                <div class="fitem">
+                    <label style="display:inline-block;width:80px;height: 24px;">用户名:</label>
+                    <input name="用户名" class="easyui-validatebox" required="true">
+                </div>
+
+            </form>
         </div>
+        <div id="dlg-buttons">
+            <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveUser()">Save</a>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">Cancel</a>
+        </div>
+
+
+
+
     </body>
 </html>
