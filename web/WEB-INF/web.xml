@@ -4,9 +4,17 @@
         <servlet-name>userList</servlet-name>
         <servlet-class>entity.userList</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>userEdit</servlet-name>
+        <servlet-class>entity.userEdit</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>userList</servlet-name>
         <url-pattern>/userList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>userEdit</servlet-name>
+        <url-pattern>/userEdit</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

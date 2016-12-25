@@ -11,27 +11,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.Statement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.util.Arrays;
-import net.sf.json.JSONObject;
-import net.sf.json.JSONArray;
-import DAO.Mydao;
+
 /**
  *
  * @author Qi
  */
-public class userList extends HttpServlet {
-
-    public String getUserArray(){ 
-        String sql = "select id '编号',username '用户名' from tbluser;";
-        return Mydao.QueryToJson(sql);
-    }
+public class userEdit extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,14 +29,9 @@ public class userList extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            String data = getUserArray();
-            response.setContentType("text/html;charset=UTF-8");
-            try (PrintWriter out = response.getWriter()) {
-                out.print(data);
-            }
-        } catch (Exception e) {
-
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            
         }
     }
 
