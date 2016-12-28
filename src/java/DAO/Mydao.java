@@ -54,6 +54,24 @@ public class Mydao {
         } 
         return rs;
     }
+    
+    public static int Update(String sql){
+        Connection conn = null;
+        Statement stat = null;
+        int r=0;
+        try {
+            if (ds == null) {
+                Init();
+            }
+            conn = ds.getConnection();
+            stat = conn.createStatement();
+            r = stat.executeUpdate(sql);
+        
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } 
+        return r;
+    }
 
     public static String QueryToJson(String sql) {
         ResultSet rs = Query(sql);

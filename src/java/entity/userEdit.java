@@ -5,12 +5,16 @@
  */
 package entity;
 
+import DAO.Mydao;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import net.sf.json.JSONObject;
+import net.sf.json.JSONArray;
 
 /**
  *
@@ -30,8 +34,30 @@ public class userEdit extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            
+        JSONObject jo = null;
+        PrintWriter out = response.getWriter();
+        try {
+            request.setCharacterEncoding("UTF-8");
+            String username = request.getParameter("用户名");
+            //String code = request.getParameter("编号");
+            String id = request.getParameter("id");
+            String sql = "update tbluser t set t.USERNAME='" + username + "' where t.ID=" + id;
+            int ur = Mydao.Update(sql);
+
+            jo = new JSONObject();
+            jo.put("success", true);
+            //System.out.println(id+"   "+username);
+
+        } catch (Exception e) {
+            jo.put("msg", e.toString());
+            e.printStackTrace();
+        } finally {
+            if (jo != null) {
+                //JSONArray array = new JSONArray();
+                //array.add(jo);
+                
+                out.print(jo.toString());
+            }
         }
     }
 
