@@ -3,24 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entity;
+package servlet;
 
 import DAO.Mydao;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONObject;
-import net.sf.json.JSONArray;
 
 /**
  *
  * @author Qi
  */
-public class userEdit extends HttpServlet {
+public class userAdd extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,9 +37,9 @@ public class userEdit extends HttpServlet {
         try {
             request.setCharacterEncoding("UTF-8");
             String username = request.getParameter("用户名");
-            //String code = request.getParameter("编号");
-            String id = request.getParameter("id");
-            String sql = "update tbluser t set t.USERNAME='" + username + "' where t.ID=" + id;
+            String id = request.getParameter("编号");
+           
+            String sql = "insert into tbluser(id,username) values('"+id+"','"+username+"');";
             int ur = Mydao.Update(sql);
 
             jo = new JSONObject();

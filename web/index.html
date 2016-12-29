@@ -15,60 +15,65 @@ and open the template in the editor.
         <script src="js/jquery.easyui.min.js" type="text/javascript"></script>
 
         <script type="text/javascript">
-		var url;
-		function newUser(){
-			$('#dlg').dialog('open').dialog('setTitle','New User');
-			$('#fm').form('clear');
-			url = 'save_user';
-		}
-		function editUser(){
-			var row = $('#dg').datagrid('getSelected');
-			if (row){
-				$('#dlg').dialog('open').dialog('setTitle','Edit User');
-				$('#fm').form('load',row);
-				url = 'userEdit?id='+row.编号;
-			}
-		}
-		function saveUser(){
-			$('#fm').form('submit',{
-				url: url,
-				onSubmit: function(){
-					return $(this).form('validate');
-				},
-				success: function(result){
-					var result = eval('('+result+')');
-					if (result.success){
-						$('#dlg').dialog('close');		// close the dialog
-						$('#dg').datagrid('reload');	// reload the user data
-					} else {
-						$.messager.show({
-							title: 'Error',
-							msg: result.msg
-						});
-					}
-				}
-			});
-		}
-		function removeUser(){
-			var row = $('#dg').datagrid('getSelected');
-			if (row){
-				$.messager.confirm('Confirm','Are you sure you want to remove this user?',function(r){
-					if (r){
-						$.post('remove_user',{id:row.id},function(result){
-							if (result.success){
-								$('#dg').datagrid('reload');	// reload the user data
-							} else {
-								$.messager.show({	// show error message
-									title: 'Error',
-									msg: result.msg
-								});
-							}
-						},'json');
-					}
-				});
-			}
-		}
-	</script>
+            var url;
+            function newUser() {
+                $('#dlg').dialog('open').dialog('setTitle', 'New User');
+                $('#fm').form('clear');
+                url = 'userAdd';
+            }
+            function editUser() {
+                var row = $('#dg').datagrid('getSelected');
+                if (row) {
+                    $('#dlg').dialog('open').dialog('setTitle', 'Edit User');
+                    $('#fm').form('load', row);
+                    url = 'userEdit?id=' + row.编号;
+
+                }
+            }
+            function saveUser() {
+                console.log(url);
+                $('#fm').form('submit', {
+                    url: url,
+                    onSubmit: function () {
+                        console.log('onSubmit');
+                        return $(this).form('validate');
+                    },
+                    success: function (result) {
+                        var result = eval('(' + result + ')');
+                        if (result.success) {
+                            console.info('return success');
+                            $('#dlg').dialog('close');		// close the dialog
+                            $('#dg').datagrid('reload');	// reload the user data
+                        } else {
+                            console.error('return false');
+                            $.messager.show({
+                                title: 'Error',
+                                msg: result.msg
+                            });
+                        }
+                    }
+                });
+            }
+            function removeUser() {
+                var row = $('#dg').datagrid('getSelected');
+                if (row) {
+                    $.messager.confirm('Confirm', 'Are you sure you want to remove this user?', function (r) {
+                        if (r) {
+                            $.post('userRemove', {id: row.编号}, function (result) {
+                                if (result.success) {
+                                    $('#dg').datagrid('reload');	// reload the user data
+                                } else {
+                                    $.messager.show({// show error message
+                                        title: 'Error',
+                                        msg: result.msg
+                                    });
+                                }
+                            }, 'json');
+                        }
+                    });
+                }
+            }
+        </script>
 
     </head>
     <body>

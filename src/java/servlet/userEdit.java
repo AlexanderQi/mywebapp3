@@ -3,26 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entity;
+package servlet;
 
+import DAO.Mydao;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import net.sf.json.JSONObject;
+import net.sf.json.JSONArray;
 
-import DAO.Mydao;
 /**
  *
  * @author Qi
  */
-public class userList extends HttpServlet {
-
-    public String getUserArray(){ 
-        String sql = "select id '编号',username '用户名' from tbluser;";
-        return Mydao.QueryToJson(sql);
-    }
+public class userEdit extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,14 +33,33 @@ public class userList extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        JSONObject jo = null;
+        PrintWriter out = response.getWriter();
         try {
-            String data = getUserArray();
-            response.setContentType("text/html;charset=UTF-8");
-            try (PrintWriter out = response.getWriter()) {
-                out.print(data);
-            }
-        } catch (Exception e) {
+            request.setCharacterEncoding("UTF-8");
+            String username = request.getParameter("用户名");
+            //String code = request.getParameter("编号");
+            String id = request.getParameter("id");
+            String sql = "update tbluser t set t.USERNAME='" + username + "' where t.ID='" + id+"';";
+            int ur = Mydao.Update(sql);
 
+            jo = new JSONObject();
+            jo.put("success", true);
+            jo.put("sql value", ur);
+            jo.put("sql", sql);
+            //System.out.println(id+"   "+username);
+
+        } catch (Exception e) {
+            jo.put("msg", e.toString());
+            e.printStackTrace();
+        } finally {
+            if (jo != null) {
+                //JSONArray array = new JSONArray();
+                //array.add(jo);
+                
+                out.print(jo.toString());
+            }
         }
     }
 

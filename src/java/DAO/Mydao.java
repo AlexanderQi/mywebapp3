@@ -66,7 +66,7 @@ public class Mydao {
             conn = ds.getConnection();
             stat = conn.createStatement();
             r = stat.executeUpdate(sql);
-        
+            
         } catch (SQLException e) {
             e.printStackTrace();
         } 

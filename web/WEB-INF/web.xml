@@ -2,11 +2,19 @@
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
     <servlet>
         <servlet-name>userList</servlet-name>
-        <servlet-class>entity.userList</servlet-class>
+        <servlet-class>servlet.userList</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>userEdit</servlet-name>
-        <servlet-class>entity.userEdit</servlet-class>
+        <servlet-class>servlet.userEdit</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>userAdd</servlet-name>
+        <servlet-class>servlet.userAdd</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>userRemove</servlet-name>
+        <servlet-class>servlet.userRemove</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>userList</servlet-name>
@@ -15,6 +23,14 @@
     <servlet-mapping>
         <servlet-name>userEdit</servlet-name>
         <url-pattern>/userEdit</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>userAdd</servlet-name>
+        <url-pattern>/userAdd</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>userRemove</servlet-name>
+        <url-pattern>/userRemove</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
